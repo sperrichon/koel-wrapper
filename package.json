@@ -1,0 +1,91 @@
+{
+  "name": "koel-wrapper",
+  "productName": "Koel",
+  "private": true,
+  "version": "0.1.0",
+  "description": "An Electron wrapper for Koel",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "rebuild": "electron-rebuild",
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "com.koel.wrapper",
+    "asar": true,
+    "compression": "maximum",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "ia32",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "ia32",
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.music",
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "category": "Audio",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "ia32",
+            "x64",
+            "armv7l"
+          ]
+        },
+        {
+          "target": "tar.gz",
+          "arch": [
+            "ia32",
+            "x64",
+            "armv7l"
+          ]
+        }
+      ]
+    }
+  },
+  "keywords": [],
+  "author": {
+    "name": "p-sam",
+    "email": "p-sam@d3vs.net",
+    "url": "https://github.com/p-sam"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/p-sam/koel-wrapper.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "electron-media-service": "^0.2.2",
+    "electron-prompt": "^0.2.0",
+    "electron-settings": "^3.0.14",
+    "electron-window-state": "^4.1.1"
+  },
+  "devDependencies": {
+    "electron": "^1.6.8",
+    "electron-builder": "^17.1.1",
+    "electron-rebuild": "^1.5.11"
+  }
+}

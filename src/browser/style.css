@@ -1,0 +1,54 @@
+::-webkit-scrollbar {
+    width: 14px;
+}
+
+::-webkit-scrollbar-thumb, ::-webkit-scrollbar-track-piece {
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(170, 170, 170);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: white;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: rgb(50, 50, 50);
+}
+
+html.mac #mainHeader {
+    padding-left: 80px;
+    -webkit-app-region: drag;
+    height: 38px;
+}
+
+html.mac.fullscreen #mainHeader {
+    padding-left: 0;
+    height: 48px;
+}
+
+
+html.mac #mainHeader .hamburger, html.mac #mainHeader .magnifier, html.mac #mainHeader h1.brand {
+    line-height: 38px;
+}
+
+html.mac.fullscreen #mainHeader .hamburger, html.mac.fullscreen #mainHeader .magnifier, html.mac.fullscreen #mainHeader h1.brand {
+    line-height: 48px;
+}
+
+html.mac #overlay {
+    -webkit-app-region: drag;
+}
+
+
+html.mac #mainHeader #searchForm > input, html.mac #mainHeader a {
+    -webkit-app-region: no-drag;
+}
+
+html {
+    background: black;
+}
