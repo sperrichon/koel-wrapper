@@ -40,8 +40,12 @@ html.mac.fullscreen #mainHeader .hamburger, html.mac.fullscreen #mainHeader .mag
     line-height: 48px;
 }
 
-html.mac #overlay {
+html.mac #overlay, html.mac .login-wrapper {
     -webkit-app-region: drag;
+}
+
+html.mac .login-wrapper form {
+    -webkit-app-region: no-drag;
 }
 
 
