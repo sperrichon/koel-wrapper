@@ -3,7 +3,7 @@ const settings = require('electron-settings');
 const path = require('path');
 
 const windowManager = require('./window');
-const mediaService = require('./media_service.js');
+const mediaService = require('./media_service');
 
 function processCommandLine(argv, cwd) {
 	if(process.platform !== 'darwin') {

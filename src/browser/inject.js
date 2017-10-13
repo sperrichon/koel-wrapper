@@ -25,6 +25,7 @@ require('fs').readFile(
 
             head.appendChild(style);
             console.log('CSS INJECTED');
+            document.documentElement.classList.add('injected');
         }
     }
 );
