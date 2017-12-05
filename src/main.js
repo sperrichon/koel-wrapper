@@ -1,4 +1,4 @@
-const {app, shell, Menu, ipcMain, globalShortcut, dialog} = require('electron');
+const {app, shell, Menu, ipcMain, dialog} = require('electron');
 const settings = require('electron-settings');
 const path = require('path');
 
@@ -6,8 +6,9 @@ const windowManager = require('./window');
 const mediaService = require('./media_service');
 
 function processCommandLine(argv, cwd) {
-	if(process.platform !== 'darwin') {
-		argv.slice(process.defaultApp ? 2 : 1).forEach(console.log);
+	const [type, ...args] = argv.slice(process.defaultApp ? 2 : 1);
+	if(type) {
+		windowManager.send('action', {type, args});
 	}
 }
 
@@ -71,7 +72,7 @@ app.on('window-all-closed', () => {
 windowManager.on('quit', () => app.quit())
 
 app.on('will-quit', () => {
-	globalShortcut.unregisterAll();
+	mediaService.shortcuts.unregister();
 });
 
 app.on('activate', () => {
@@ -96,18 +97,7 @@ navigate();
 windowManager.ready(() => {
 	processCommandLine(process.argv, process.cwd());
 
-	const shortcuts = {
-		MediaNextTrack: 'next',
-		MediaPreviousTrack: 'previous', 
-		MediaStop: 'stop',
-		MediaPlayPause: 'playPause'
-	};
-
-	Object.keys(shortcuts).forEach((k) => {
-		globalShortcut.register(k, () => {
-			windowManager.send('action', {type: shortcuts[k]});
-		});
-	});
+	mediaService.shortcuts.register();
 
 	mediaService.serviceStart();
 

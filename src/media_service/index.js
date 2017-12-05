@@ -121,5 +121,6 @@ updateState({
 module.exports = Object.assign(ee, {
 	updateState,
 	serviceStart: darwinMediaService.start,
-	electronTouchBar: touchBar.electronTouchBar
+	electronTouchBar: touchBar.electronTouchBar,
+	shortcuts: require('./globalShortcuts')
 });
