@@ -1,5 +1,5 @@
 const electron = require('electron');
-const {app, BrowserWindow, Menu, ipcMain, dialog} = electron;
+const {app, BrowserWindow, Menu, ipcMain, dialog, shell} = electron;
 const windowStateKeeper = require('electron-window-state');
 const appSettings = require('electron-settings');
 const electronPrompt = require('electron-prompt');
@@ -71,6 +71,11 @@ function createWindow() {
 
     mainWindow.webContents.on('did-finish-load', () => {
         ee.emit('navigated', mainWindow.webContents);
+    });
+    
+    mainWindow.webContents.on('new-window', (event, url) => {
+        event.preventDefault();
+        shell.openExternal(url);
     });
 
     mainWindow.webContents.on('dom-ready', () => {
