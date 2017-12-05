@@ -43,8 +43,6 @@ function favorite() {
 }
 
 function seek(percent) {
-    console.log('percent', percent);
-    
     _withEl(
         '#progressPane > div.plyr > div.plyr__controls > div.plyr__progress > input.plyr__progress--seek', 
         (el) => {
