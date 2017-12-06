@@ -26,7 +26,9 @@ function openSetUrlDialog() {
 	const promptTitle = 'Koel - Preferences - Set URL';
 
 	windowManager.prompt({
-		type: 'url',
+		inputAttrs: {
+			type: 'url'
+		},
 		title: promptTitle,
 		label: 'Koel URL:',
 		value: settings.get('url', '')
