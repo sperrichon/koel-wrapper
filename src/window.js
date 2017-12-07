@@ -168,7 +168,6 @@ function show() {
       	mainWindow.show();
       	mainWindow.setSkipTaskbar(false);
     }
-    processCommandLine(commandLine, workingDirectory);
 }
 
 function prompt(options) {
