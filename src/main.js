@@ -5,10 +5,13 @@ const path = require('path');
 const windowManager = require('./window');
 const mediaService = require('./media_service');
 
+const SIMPLE_ACTIONS = ['playPause', 'prev', 'next', 'playMode', 'favorite'];
+const ARG_ACTIONS = ['volume', 'seek'];
+
 function processCommandLine(argv, cwd) {
-	const [type, ...args] = argv.slice(process.defaultApp ? 2 : 1);
-	if(type) {
-		windowManager.send('action', {type, args});
+	const [type] = argv.slice(process.defaultApp ? 2 : 1);
+	if(type && SIMPLE_ACTIONS.includes(SIMPLE_ACTIONS)) {
+		windowManager.send('action', {type});
 	}
 }
 
@@ -103,15 +106,13 @@ windowManager.ready(() => {
 
 	mediaService.serviceStart();
 
-	['playPause', 'prev', 'next', 'playMode', 'favorite'].forEach((type) => {
+	SIMPLE_ACTIONS.forEach((type) => {
 		mediaService.on(type, () => windowManager.send('action', {type}));
 	});
 
-	['volume', 'seek'].forEach((type) => {
+	ARG_ACTIONS.forEach((type) => {
 		mediaService.on(type, (arg) => windowManager.send('action', {type, args: [arg]}));
 	});
 
-	ipcMain.on('updateState', (event, newState) => {
-		setImmediate(() => mediaService.updateState(newState));
-	});
+	ipcMain.on('updateState', (event, newState) => mediaService.updateState(newState));
 });
