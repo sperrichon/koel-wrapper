@@ -2,7 +2,7 @@
   "name": "koel-wrapper",
   "productName": "Koel",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "An Electron wrapper for Koel",
   "main": "src/main.js",
   "scripts": {

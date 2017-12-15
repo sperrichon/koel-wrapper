@@ -25,3 +25,14 @@ npm start
 npm run pack # package app
 npm run dist # package app + zips and installers
 ```
+
+## Command line usage
+
+ - on Windows: `.\Koel.exe action`
+ - on Mac: `open ./Koel.app --args action`
+ - on Linux (tarball): `./koel-wrapper action`
+ - on Linux (AppImage): `./koel-wrapper-[version]-[platform].AppImage action`
+ 
+**Note**: AppImage does not seem to be working when trying to use command line arguments
+
+
