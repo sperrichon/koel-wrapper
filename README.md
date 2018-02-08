@@ -1,7 +1,8 @@
 koel-wrapper
 ==============
-
 An [Electron](http://electron.atom.io/) wrapper for [Koel](https://github.com/phanan/koel).
+
+[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
 Tested on macOS High Sierra, Windows 10, and Solus
 

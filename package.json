@@ -10,7 +10,13 @@
     "install-app-deps": "build install-app-deps",
     "postinstall": "npm run install-app-deps",
     "pack": "build --dir",
-    "dist": "build"
+    "dist": "build",
+    "lint": "xo",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "xo": {
+    "esnext": true,
+    "env": ["node", "browser"]
   },
   "build": {
     "appId": "com.koel.wrapper",
