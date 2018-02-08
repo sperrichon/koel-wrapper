@@ -5,10 +5,12 @@ function whenDomReady(selector, filter) {
 		let interval; // eslint-disable-line prefer-const
 		const loop = () => {
 			const el = document.querySelector(selector);
-			if (el) {
-				if (typeof (filter) === 'function' && !filter(el)) {
-					return;
-				}
+
+			if(typeof(filter) !== 'function') {
+				filter = (el) => Boolean(el);
+			}
+
+			if (filter(el)) {
 				clearInterval(interval);
 				resolve(el);
 			}
@@ -78,7 +80,10 @@ function onBackgroundImageUpdate(el) {
 	ipcRenderer.send('updateState', {albumArt: url});
 }
 function init() {
-	whenDomReady('#overlay', el => el.style && el.style.display === 'none')
+	Promise.all([
+		whenDomReady('#mainWrapper'), 
+		whenDomReady('#overlay', el => !el || (el.style && el.style.display === 'none'))
+	])
 		.then(() => {
 			Promise.all([whenDomReady('#volume'), whenDomReady('#volumeRange')])
 				.then(([muteButtonEl, volumeRangeEl]) => {
