@@ -1,7 +1,7 @@
 const {shell, dialog} = require('electron');
 const pkg = require('../package.json');
 
-function menuTemplateFactory(actions) {
+function menuTemplateFactory(actions, initialValues) {
 	const aboutMenuItem = {
 		label: 'About ' + pkg.productName,
 		click() {
@@ -26,6 +26,15 @@ function menuTemplateFactory(actions) {
 				label: 'Set Koel URL...',
 				click() {
 					actions.openSetUrlDialog();
+				}
+			},
+			{
+				label: 'Discord Presence',
+				type: 'checkbox',
+				checked: initialValues.discordPresenceEnabled,
+				enabled: true,
+				click(item) {
+					actions.setDiscordPresenceEnabled(item.checked);
 				}
 			}
 		]

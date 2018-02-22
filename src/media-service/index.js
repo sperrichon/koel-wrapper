@@ -7,6 +7,7 @@ const ee = new EventEmitter();
 const touchBar = require('./touch-bar');
 const globalShortcuts = require('./global-shortcuts');
 const darwinMediaService = require('./darwin-media-service');
+const discordPresenceService = require('./discord-presence-service');
 
 function normalizeState(s) {
 	const o = {};
@@ -64,16 +65,16 @@ function normalizeState(s) {
 }
 
 const mutators = {
-	playing: [touchBar.mutators.updatePlayPauseButton, darwinMediaService.mutators.updateMetaData],
+	playing: [touchBar.mutators.updatePlayPauseButton, darwinMediaService.mutators.updateMetaData, discordPresenceService.mutators.setActivity],
 	addedToFavorites: [touchBar.mutators.updateAddToFavoritesButton],
 	playMode: [touchBar.mutators.updatePlayModeButton],
 	volume: [touchBar.mutators.updateVolumeSlider],
-	title: [darwinMediaService.mutators.updateMetaData],
-	artist: [darwinMediaService.mutators.updateMetaData],
-	album: [darwinMediaService.mutators.updateMetaData],
+	title: [darwinMediaService.mutators.updateMetaData, discordPresenceService.mutators.setActivity],
+	artist: [darwinMediaService.mutators.updateMetaData, discordPresenceService.mutators.setActivity],
+	album: [darwinMediaService.mutators.updateMetaData, discordPresenceService.mutators.setActivity],
 	albumArt: [darwinMediaService.mutators.updateMetaData],
-	timeElapsed: [darwinMediaService.mutators.updateMetaData],
-	duration: [darwinMediaService.mutators.updateMetaData]
+	timeElapsed: [darwinMediaService.mutators.updateMetaData, discordPresenceService.mutators.setActivity],
+	duration: [darwinMediaService.mutators.updateMetaData, discordPresenceService.mutators.setActivity]
 };
 
 function updateState(newState) {
@@ -122,5 +123,6 @@ module.exports = Object.assign(ee, {
 	updateState,
 	electronTouchBar: touchBar.electronTouchBar,
 	shortcuts: globalShortcuts.actions,
-	darwinMedia: darwinMediaService.actions
+	darwinMedia: darwinMediaService.actions,
+	discordPresence: discordPresenceService.actions
 });

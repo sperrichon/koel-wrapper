@@ -16,6 +16,15 @@ function processCommandLine(argv) {
 	}
 }
 
+const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
+	windowManager.show();
+	processCommandLine(commandLine, workingDirectory);
+});
+
+if (shouldQuit) {
+	app.quit();
+}
+
 function navigate() {
 	const defaultUrl = require('url').format({
 		protocol: 'file',
@@ -51,17 +60,16 @@ function openSetUrlDialog() {
 	});
 }
 
-windowManager.setMenuTemplate(require('./menu.js')({openSetUrlDialog}));
-
-windowManager.setTouchBar(mediaService.electronTouchBar);
-
-const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
-	windowManager.show();
-	processCommandLine(commandLine, workingDirectory);
-});
-
-if (shouldQuit) {
-	app.quit();
+function applyDiscordPresenceStatus(enabled) {
+	if (enabled) {
+		mediaService.discordPresence.enable();
+	} else {
+		mediaService.discordPresence.disable();
+	}
+}
+function setDiscordPresenceEnabled(enabled) {
+	settings.set('discordPresenceEnabled', enabled);
+	applyDiscordPresenceStatus(enabled);
 }
 
 settings.watch('url', () => {
@@ -93,6 +101,15 @@ windowManager.on('leave-full-screen', mainWindow => {
 });
 
 logging.register();
+
+const initialValues = {
+	discordPresenceEnabled: settings.get('discordPresenceEnabled', false)
+};
+applyDiscordPresenceStatus(initialValues.discordPresenceEnabled);
+
+windowManager.setMenuTemplate(require('./menu.js')({openSetUrlDialog, setDiscordPresenceEnabled}, initialValues));
+
+windowManager.setTouchBar(mediaService.electronTouchBar);
 
 windowManager.ready(() => {
 	processCommandLine(process.argv, process.cwd());
