@@ -1,6 +1,5 @@
+const {ipcRenderer} = require('electron');
 const logger = require('electron-timber');
-
-const ipcRenderer = require('electron').ipcRenderer;
 
 function updateState(state) {
 	logger.log('[listeners]', 'updateState', state);
@@ -13,8 +12,8 @@ function whenDomReady(selector, filter) {
 		const loop = () => {
 			const el = document.querySelector(selector);
 
-			if(typeof(filter) !== 'function') {
-				filter = (el) => Boolean(el);
+			if (typeof (filter) !== 'function') {
+				filter = el => Boolean(el);
 			}
 
 			if (filter(el)) {
@@ -88,7 +87,7 @@ function onBackgroundImageUpdate(el) {
 }
 function init() {
 	Promise.all([
-		whenDomReady('#mainWrapper'), 
+		whenDomReady('#mainWrapper'),
 		whenDomReady('#overlay', el => !el || (el.style && el.style.display === 'none'))
 	])
 		.then(() => {

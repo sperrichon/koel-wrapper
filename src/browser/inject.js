@@ -13,7 +13,7 @@ require('fs').readFile(
     require('path').resolve(__dirname, './style.css'),
     (err, css) => {
 	if (err) {
-		logger.error('css inject', err)
+		logger.error('css inject', err);
 	} else {
 		const head = document.head || document.getElementsByTagName('head')[0];
 		const style = document.createElement('style');

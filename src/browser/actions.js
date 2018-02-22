@@ -103,7 +103,7 @@ require('electron').ipcRenderer.on('action', (event, obj) => {
 function ready() {
 	if (!isReady) {
 		logger.log('[actions]', 'ready');
-		
+
 		isReady = true;
 		const readyActions = onReadyActions;
 		onReadyActions = [];

@@ -122,5 +122,5 @@ module.exports = Object.assign(ee, {
 	updateState,
 	electronTouchBar: touchBar.electronTouchBar,
 	shortcuts: globalShortcuts.actions,
-	darwinMedia: darwinMediaService.actions,
+	darwinMedia: darwinMediaService.actions
 });
