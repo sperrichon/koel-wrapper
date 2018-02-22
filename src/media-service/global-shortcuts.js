@@ -12,16 +12,18 @@ const SHORTCUTS = {
 };
 
 module.exports = {
-	register() {
-		Object.keys(SHORTCUTS).forEach(k => {
-			globalShortcut.register(k, () => {
-				ee.send('action', {type: SHORTCUTS[k]});
+	actions: {
+		register() {
+			Object.keys(SHORTCUTS).forEach(k => {
+				globalShortcut.register(k, () => {
+					ee.send('action', {type: SHORTCUTS[k]});
+				});
 			});
-		});
-	},
-	unregister() {
-		Object.keys(SHORTCUTS).forEach(k => {
-			globalShortcut.unregister(k);
-		});
+		},
+		unregister() {
+			Object.keys(SHORTCUTS).forEach(k => {
+				globalShortcut.unregister(k);
+			});
+		}
 	}
 };

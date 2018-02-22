@@ -3,7 +3,7 @@ const {app, ipcMain} = require('electron');
 const settings = require('electron-settings');
 
 const windowManager = require('./window');
-const mediaService = require('./media_service');
+const mediaService = require('./media-service');
 
 const SIMPLE_ACTIONS = ['playPause', 'prev', 'next', 'playMode', 'favorite'];
 const ARG_ACTIONS = ['volume', 'seek'];
@@ -100,7 +100,7 @@ windowManager.ready(() => {
 
 	mediaService.shortcuts.register();
 
-	mediaService.serviceStart();
+	mediaService.darwinMedia.init();
 
 	SIMPLE_ACTIONS.forEach(type => {
 		mediaService.on(type, () => windowManager.send('action', {type}));

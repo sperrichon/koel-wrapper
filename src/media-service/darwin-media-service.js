@@ -62,9 +62,11 @@ module.exports = Object.assign(ee, {
 	mutators: {
 		updateMetaData
 	},
-	start: () => {
-		if (!mediaService.isStarted()) {
-			mediaService.startService();
+	actions: {
+		init: () => {
+			if (!mediaService.isStarted()) {
+				mediaService.startService();
+			}
 		}
 	}
 });

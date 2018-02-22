@@ -5,6 +5,7 @@ const state = {};
 const ee = new EventEmitter();
 
 const touchBar = require('./touch-bar');
+const globalShortcuts = require('./global-shortcuts');
 const darwinMediaService = require('./darwin-media-service');
 
 function normalizeState(s) {
@@ -119,7 +120,7 @@ updateState({
 
 module.exports = Object.assign(ee, {
 	updateState,
-	serviceStart: darwinMediaService.start,
 	electronTouchBar: touchBar.electronTouchBar,
-	shortcuts: require('./global-shortcuts')
+	shortcuts: globalShortcuts.actions,
+	darwinMedia: darwinMediaService.actions,
 });
