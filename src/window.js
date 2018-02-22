@@ -6,6 +6,7 @@ const electron = require('electron');
 const {app, BrowserWindow, Menu, dialog, shell} = electron;
 const windowStateKeeper = require('electron-window-state');
 const electronPrompt = require('electron-prompt');
+const electronContextMenu = require('electron-context-menu');
 
 const ee = new EventEmitter();
 let shouldQuit = false;
@@ -40,6 +41,7 @@ function createWindow() {
 	});
 
 	windowState.manage(mainWindow);
+	electronContextMenu({window: mainWindow});
 
 	mainWindow.on('close', event => {
 		if (process.platform === 'darwin') {
