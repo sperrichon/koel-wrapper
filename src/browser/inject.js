@@ -1,3 +1,5 @@
+const logger = require('electron-timber');
+
 class __ParentNotification extends window.Notification {
 	constructor(title, options) {
 		options = Object.assign({silent: true}, options || {});
@@ -11,7 +13,7 @@ require('fs').readFile(
     require('path').resolve(__dirname, './style.css'),
     (err, css) => {
 	if (err) {
-		console.error('styleInject', err);
+		logger.error('css inject', err)
 	} else {
 		const head = document.head || document.getElementsByTagName('head')[0];
 		const style = document.createElement('style');
@@ -24,7 +26,7 @@ require('fs').readFile(
 		}
 
 		head.appendChild(style);
-		console.log('CSS INJECTED');
+		logger.log('css injected');
 		document.documentElement.classList.add('injected');
 	}
 }

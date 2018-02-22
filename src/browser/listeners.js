@@ -1,4 +1,11 @@
+const logger = require('electron-timber');
+
 const ipcRenderer = require('electron').ipcRenderer;
+
+function updateState(state) {
+	logger.log('[listeners]', 'updateState', state);
+	ipcRenderer.send('updateState', state);
+}
 
 function whenDomReady(selector, filter) {
 	return new Promise(resolve => {
@@ -38,15 +45,15 @@ function onElementAttributeChange(el, attribute, fn) {
 }
 
 function onVolumeChange(el) {
-	ipcRenderer.send('updateState', {volume: parseInt(el.value * 10, 10)});
+	updateState({volume: parseInt(el.value * 10, 10)});
 }
 
 function onPlayingChange(el) {
-	ipcRenderer.send('updateState', {playing: el.classList.contains('pause')});
+	updateState({playing: el.classList.contains('pause')});
 }
 
 function onFavoriteChange(el) {
-	ipcRenderer.send('updateState', {addedToFavorites: el.classList.contains('liked')});
+	updateState({addedToFavorites: el.classList.contains('liked')});
 }
 
 function onPlayModeChange(el) {
@@ -57,11 +64,11 @@ function onPlayModeChange(el) {
 	if (el.classList.contains('REPEAT_ONE')) {
 		playMode = 2;
 	}
-	ipcRenderer.send('updateState', {playMode});
+	updateState({playMode});
 }
 
 function onAudioTimeUpdate(el) {
-	ipcRenderer.send('updateState', {
+	updateState({
 		timeElapsed: {
 			elapsed: parseInt(el.currentTime * 1000, 10),
 			time: new Date().getTime()
@@ -77,7 +84,7 @@ function onBackgroundImageUpdate(el) {
 			url = el.style.backgroundImage.substr(4, el.style.backgroundImage.length - 5).replace(/^["']/, '').replace(/["']$/, '');
 		}
 	}
-	ipcRenderer.send('updateState', {albumArt: url});
+	updateState({albumArt: url});
 }
 function init() {
 	Promise.all([
@@ -145,7 +152,7 @@ function init() {
 					const observer = new MutationObserver(() => {
 						const newState = {};
 						newState[k] = el.textContent;
-						ipcRenderer.send('updateState', newState);
+						updateState(newState);
 					});
 					observer.observe(el, {
 						characterData: true,

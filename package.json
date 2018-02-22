@@ -94,6 +94,7 @@
     "electron-media-service": "^0.2.2",
     "electron-prompt": "^0.5.0",
     "electron-settings": "^3.1.4",
+    "electron-timber": "^0.3.0",
     "electron-unhandled": "^1.0.0",
     "electron-window-state": "^4.1.1"
   },

@@ -1,3 +1,5 @@
+const logger = require('electron-timber');
+
 function _withEl(selector, fn) {
 	const el = document.querySelector(selector);
 	if (el) {
@@ -76,7 +78,6 @@ let onReadyActions = [];
 
 function handleAction(obj) {
 	if (obj.type && actions[obj.type]) {
-		console.log('action', obj);
 		if (obj.args) {
 			if (Array.isArray(obj.args)) {
 				actions[obj.type].apply(actions[obj.type], obj.args);
@@ -90,7 +91,8 @@ function handleAction(obj) {
 }
 
 require('electron').ipcRenderer.on('action', (event, obj) => {
-	console.log('action', isReady, obj);
+	logger.log('[actions]', 'from-main', obj, {isReady});
+
 	if (isReady) {
 		handleAction(obj);
 	} else {
@@ -100,7 +102,7 @@ require('electron').ipcRenderer.on('action', (event, obj) => {
 
 function ready() {
 	if (!isReady) {
-		console.log('READY');
+		logger.log('[actions]', 'ready');
 		
 		isReady = true;
 		const readyActions = onReadyActions;

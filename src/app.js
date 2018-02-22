@@ -4,6 +4,7 @@ const settings = require('electron-settings');
 
 const windowManager = require('./window');
 const mediaService = require('./media-service');
+const logging = require('./logging.js');
 
 const SIMPLE_ACTIONS = ['playPause', 'prev', 'next', 'playMode', 'favorite'];
 const ARG_ACTIONS = ['volume', 'seek'];
@@ -75,8 +76,6 @@ app.on('window-all-closed', () => {
 	}
 });
 
-windowManager.on('quit', () => app.quit());
-
 app.on('will-quit', () => {
 	mediaService.shortcuts.unregister();
 });
@@ -93,7 +92,7 @@ windowManager.on('leave-full-screen', mainWindow => {
 	mainWindow.webContents.executeJavaScript('document.documentElement.classList.remove("fullscreen")');
 });
 
-navigate();
+logging.register();
 
 windowManager.ready(() => {
 	processCommandLine(process.argv, process.cwd());
@@ -112,3 +111,5 @@ windowManager.ready(() => {
 
 	ipcMain.on('updateState', (event, newState) => mediaService.updateState(newState));
 });
+
+navigate();
