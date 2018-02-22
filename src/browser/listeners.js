@@ -106,13 +106,11 @@ function init() {
 						onVolumeChange(volumeRangeEl);
 					});
 					onVolumeChange(volumeRangeEl);
-				})
-	;
-
-			whenDomReady('#playerControls > span.control').then(el => {
+				});
+whenDomReady('#playerControls > span.control').then(el => {
 				onElementAttributeChange(el, 'class', onPlayingChange);
 				onPlayingChange(el);
-			});
+});
 
 			whenDomReady('#mainFooter > div.media-info-wrap > div.other-controls > div > span.repeat.control').then(el => {
 				onElementAttributeChange(el, 'class', onPlayModeChange);

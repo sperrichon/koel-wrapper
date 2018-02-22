@@ -12,11 +12,11 @@ const discordPresenceService = require('./discord-presence-service');
 function normalizeState(s) {
 	const o = {};
 	['playing', 'addedToFavorites', 'playMode']
-	.forEach(k => {
-		if (typeof (s[k]) !== 'undefined') {
-			o[k] = Boolean(s[k]);
-		}
-	});
+		.forEach(k => {
+			if (typeof (s[k]) !== 'undefined') {
+				o[k] = Boolean(s[k]);
+			}
+		});
 	if (typeof (s.playMode) !== 'undefined') {
 		o.playMode = parseInt(s.playMode, 10);
 		if (isNaN(o.playMode) || o.playMode > 2 || o.playMode < 0) {
@@ -51,15 +51,15 @@ function normalizeState(s) {
 	}
 
 	['title', 'artist', 'albumArt', 'album']
-	.forEach(k => {
-		if (typeof (s[k]) !== 'undefined') {
-			if (typeof (s[k]) === 'string') {
-				o[k] = s[k];
-			} else {
-				o[k] = '';
+		.forEach(k => {
+			if (typeof (s[k]) !== 'undefined') {
+				if (typeof (s[k]) === 'string') {
+					o[k] = s[k];
+				} else {
+					o[k] = '';
+				}
 			}
-		}
-	});
+		});
 
 	return o;
 }

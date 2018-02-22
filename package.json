@@ -7,10 +7,14 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "install-app-deps": "build install-app-deps",
+    "install-app-deps": "npm run build -- install-app-deps",
     "postinstall": "npm run install-app-deps",
-    "pack": "build --dir",
-    "dist": "build",
+    "pack": "npm run build -- --dir",
+    "build": "cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true build",
+    "build:all": "npm run build -- -lmw",
+    "build:linux": "npm run build -- -l",
+    "build:win": "npm run build -- -w",
+    "build:mac": "npm run build -- -m",
     "lint": "xo",
     "lint:fix": "npm run lint -- --fix"
   },
@@ -25,6 +29,7 @@
     "appId": "com.koel.wrapper",
     "asar": true,
     "compression": "maximum",
+    "artifactName": "${name}_${version}-${os}-${arch}.${ext}",
     "files": [
       "build/icon.*",
       "src/**/*"
@@ -33,17 +38,11 @@
       "target": [
         {
           "target": "nsis",
-          "arch": [
-            "ia32",
-            "x64"
-          ]
+          "arch": ["ia32", "x64"]
         },
         {
           "target": "zip",
-          "arch": [
-            "ia32",
-            "x64"
-          ]
+          "arch": ["ia32", "x64"]
         }
       ]
     },
@@ -51,10 +50,8 @@
       "category": "public.app-category.music",
       "target": [
         {
-          "target": "zip",
-          "arch": [
-            "x64"
-          ]
+          "target": "dmg",
+          "arch": ["x64"]
         }
       ]
     },
@@ -63,20 +60,20 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": [
-            "ia32",
-            "x64"
-          ]
+          "arch": ["ia32", "x64"]
         },
         {
           "target": "tar.gz",
-          "arch": [
-            "ia32",
-            "x64",
-            "armv7l"
-          ]
+          "arch": ["ia32", "x64", "armv7l"]
         }
       ]
+    },
+    "dmg": {
+      "icon": "build/package.icns"
+    },
+    "nsis": {
+      "installerIcon": "build/package.ico",
+      "uninstallerIcon": "build/package.ico"
     }
   },
   "keywords": [],
@@ -102,7 +99,9 @@
     "electron-window-state": "^4.1.1"
   },
   "devDependencies": {
+    "cross-env": "^5.1.3",
     "electron": "^2.0.0-beta.1",
-    "electron-builder": "^20.0.8"
+    "electron-builder": "^20.0.8",
+    "xo": "^0.20.3"
   }
 }

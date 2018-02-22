@@ -46,18 +46,18 @@ function openSetUrlDialog() {
 		label: 'Koel URL:',
 		value: settings.get('url', '')
 	})
-	.then(r => {
-		if (r) {
+		.then(r => {
+			if (r) {
 			settings.set('url', r);
 			navigate();
-		}
-	}).catch(err => {
+			}
+		}).catch(err => {
 		windowManager.messageBox({
 			type: 'error',
 			title: promptTitle,
 			message: err.message
 		});
-	});
+		});
 }
 
 function applyDiscordPresenceStatus(enabled) {
