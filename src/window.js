@@ -32,7 +32,7 @@ function createWindow() {
 		minWidth: 420,
 		darkTheme: true,
 		backgroundColor: '#000',
-		titleBarStyle: process.platform === 'darwin' ? 'hidden-inset' : 'default',
+		titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
 		webPreferences: {
 			nodeIntegration: false,
 			preload: path.join(__dirname, './browser/inject.js')
