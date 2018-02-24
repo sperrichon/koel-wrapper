@@ -9,27 +9,35 @@ class __ParentNotification extends window.Notification {
 
 window.Notification = __ParentNotification;
 
-require('fs').readFile(
-    require('path').resolve(__dirname, './style.css'),
-    (err, css) => {
-	if (err) {
-		logger.error('css inject', err);
-	} else {
-		const head = document.head || document.getElementsByTagName('head')[0];
-		const style = document.createElement('style');
-
-		style.type = 'text/css';
-		if (style.styleSheet) {
-			style.styleSheet.cssText = css;
-		} else {
-			style.appendChild(document.createTextNode(css));
-		}
-
-		head.appendChild(style);
-		logger.log('css injected');
-		document.documentElement.classList.add('injected');
+function injectCSS(css) {
+	if (!document.head) {
+		setTimeout(() => injectCSS(css), 200);
 	}
+
+	const style = document.createElement('style');
+
+	style.type = 'text/css';
+	if (style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		style.appendChild(document.createTextNode(css));
+	}
+
+	document.head.appendChild(style);
+
+	logger.log('css injected');
+	document.documentElement.classList.add('injected');
 }
+
+require('fs').readFile(
+	require('path').resolve(__dirname, './style.css'),
+	(err, css) => {
+		if (err) {
+			logger.error('css inject', err);
+		} else {
+			injectCSS(css);
+		}
+	}
 );
 
 require('./listeners.js').init();
