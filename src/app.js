@@ -6,7 +6,7 @@ const windowManager = require('./window');
 const mediaService = require('./media-service');
 const logging = require('./logging.js');
 
-const SIMPLE_ACTIONS = ['playPause', 'prev', 'next', 'playMode', 'favorite'];
+const SIMPLE_ACTIONS = ['play', 'pause', 'playPause', 'prev', 'next', 'playMode', 'favorite'];
 const ARG_ACTIONS = ['volume', 'seek'];
 
 function processCommandLine(argv) {
