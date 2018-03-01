@@ -40,6 +40,24 @@ function menuTemplateFactory(actions, initialValues) {
 		]
 	};
 
+	const clearSubMenu = {
+		label: 'Clear',
+		submenu: [
+			{
+				label: 'Clear cache',
+				click() {
+					actions.clearCache();
+				}
+			},
+			{
+				label: 'Clear storage data',
+				click() {
+					actions.clearStorageData();
+				}
+			}
+		]
+	}
+
 	const externalLinksMenuItems = [
 		{
 			label: 'Github Repo',
@@ -92,6 +110,7 @@ function menuTemplateFactory(actions, initialValues) {
 				aboutMenuItem,
 				{type: 'separator'},
 				preferencesSubMenu,
+				clearSubMenu,
 				{type: 'separator'},
 				{role: 'hide'},
 				{role: 'hideothers'},
@@ -120,6 +139,7 @@ function menuTemplateFactory(actions, initialValues) {
 			label: pkg.productName,
 			submenu: [
 				preferencesSubMenu,
+				clearSubMenu,
 				{type: 'separator'},
 				{role: 'quit'}
 			]

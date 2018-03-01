@@ -1,5 +1,5 @@
 const path = require('path');
-const {app, ipcMain} = require('electron');
+const {app, ipcMain, session} = require('electron');
 const settings = require('electron-settings');
 
 const windowManager = require('./window');
@@ -29,10 +29,24 @@ function navigate() {
 	const defaultUrl = require('url').format({
 		protocol: 'file',
 		slashes: true,
-		pathname: path.join(app.getAppPath(), 'browser', 'default.html')
+		pathname: path.join(__dirname, 'browser', 'default.html')
 	});
 
 	windowManager.create(window => window.loadURL(settings.get('url', '') || defaultUrl));
+}
+
+function clearCache() {
+	session.defaultSession.clearCache(() => windowManager.messageBox({
+		title: 'Koel - Clear cache',
+		message: 'Cache cleared'
+	}));
+}
+
+function clearStorageData() {
+	session.defaultSession.clearStorageData(() => windowManager.messageBox({
+		title: 'Koel - Clear storage data',
+		message: 'Storage data cleared'
+	}));
 }
 
 function openSetUrlDialog() {
@@ -46,18 +60,18 @@ function openSetUrlDialog() {
 		label: 'Koel URL:',
 		value: settings.get('url', '')
 	})
-		.then(r => {
-			if (r) {
-			settings.set('url', r);
-			navigate();
-			}
-		}).catch(err => {
+	.then(r => {
+		if (r) {
+		settings.set('url', r);
+		navigate();
+		}
+	}).catch(err => {
 		windowManager.messageBox({
 			type: 'error',
 			title: promptTitle,
 			message: err.message
 		});
-		});
+	});
 }
 
 function applyDiscordPresenceStatus(enabled) {
@@ -107,7 +121,9 @@ const initialValues = {
 };
 applyDiscordPresenceStatus(initialValues.discordPresenceEnabled);
 
-windowManager.setMenuTemplate(require('./menu.js')({openSetUrlDialog, setDiscordPresenceEnabled}, initialValues));
+windowManager.setMenuTemplate(require('./menu.js')({
+	openSetUrlDialog, setDiscordPresenceEnabled, clearStorageData, clearCache
+}, initialValues));
 
 windowManager.setTouchBar(mediaService.electronTouchBar);
 
