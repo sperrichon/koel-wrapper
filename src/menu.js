@@ -56,7 +56,7 @@ function menuTemplateFactory(actions, initialValues) {
 				}
 			}
 		]
-	}
+	};
 
 	const externalLinksMenuItems = [
 		{

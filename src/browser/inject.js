@@ -12,6 +12,7 @@ window.Notification = __ParentNotification;
 function injectCSS(css) {
 	if (!document.head) {
 		setTimeout(() => injectCSS(css), 200);
+		return;
 	}
 
 	const style = document.createElement('style');
