@@ -16,14 +16,16 @@ function processCommandLine(argv) {
 	}
 }
 
-const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
-	windowManager.show();
-	processCommandLine(commandLine, workingDirectory);
-});
+const shouldQuit = !app.requestSingleInstanceLock();
 
 if (shouldQuit) {
 	app.quit();
 }
+
+app.on('second-instance', (commandLine, workingDirectory) => {
+	windowManager.show();
+	processCommandLine(commandLine, workingDirectory);
+});
 
 function navigate() {
 	const defaultUrl = require('url').format({
@@ -62,15 +64,15 @@ function openSetUrlDialog() {
 	})
 		.then(r => {
 			if (r) {
-		settings.set('url', r);
-		navigate();
+				settings.set('url', r);
+				navigate();
 			}
 		}).catch(err => {
-		windowManager.messageBox({
-			type: 'error',
-			title: promptTitle,
-			message: err.message
-		});
+			windowManager.messageBox({
+				type: 'error',
+				title: promptTitle,
+				message: err.message
+			});
 		});
 }
 
