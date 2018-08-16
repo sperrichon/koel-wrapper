@@ -77,7 +77,9 @@ function updateVolumeSlider(state) {
 }
 
 const electronTouchBar = new TouchBar([
-	prevButton, playPauseButton, nextButton,
+	prevButton,
+	playPauseButton,
+	nextButton,
 	new TouchBarSpacer({size: 'large'}),
 	addToFavoritesButton,
 	playModeButton,
