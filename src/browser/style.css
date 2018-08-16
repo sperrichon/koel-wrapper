@@ -31,15 +31,6 @@ html.mac.fullscreen #mainHeader {
 	height: 48px;
 }
 
-
-html.mac #mainHeader .hamburger, html.mac #mainHeader .magnifier, html.mac #mainHeader h1.brand {
-	line-height: 38px;
-}
-
-html.mac.fullscreen #mainHeader .hamburger, html.mac.fullscreen #mainHeader .magnifier, html.mac.fullscreen #mainHeader h1.brand {
-	line-height: 48px;
-}
-
 html.mac #overlay, html.mac .login-wrapper {
 	-webkit-app-region: drag;
 }
@@ -47,7 +38,6 @@ html.mac #overlay, html.mac .login-wrapper {
 html.mac .login-wrapper form {
 	-webkit-app-region: no-drag;
 }
-
 
 html.mac #mainHeader #searchForm > input, html.mac #mainHeader a {
 	-webkit-app-region: no-drag;
