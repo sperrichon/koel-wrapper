@@ -85,81 +85,89 @@ function onBackgroundImageUpdate(el) {
 	}
 	updateState({albumArt: url});
 }
-function init() {
-	Promise.all([
-		whenDomReady('#mainWrapper'),
-		whenDomReady('#overlay', el => !el || (el.style && el.style.display === 'none'))
-	])
-		.then(() => {
-			Promise.all([whenDomReady('#volume'), whenDomReady('#volumeRange')])
-				.then(([muteButtonEl, volumeRangeEl]) => {
-					muteButtonEl.addEventListener('click', e => {
-						if (e.__generated) {
-							return;
-						}
-						onVolumeChange(volumeRangeEl);
-					});
-					volumeRangeEl.addEventListener('input', e => {
-						if (e.__generated) {
-							return;
-						}
-						onVolumeChange(volumeRangeEl);
-					});
-					onVolumeChange(volumeRangeEl);
-				});
-whenDomReady('#playerControls > span.control').then(el => {
-				onElementAttributeChange(el, 'class', onPlayingChange);
-				onPlayingChange(el);
-});
+async function init() {
+	await whenDomReady('#mainWrapper');
 
-			whenDomReady('#mainFooter > div.media-info-wrap > div.other-controls > div > span.repeat.control').then(el => {
-				onElementAttributeChange(el, 'class', onPlayModeChange);
-				onPlayModeChange(el);
+	class __ParentNotification extends window.Notification {
+		constructor(title, options) {
+			options = Object.assign({silent: true}, options || {});
+			super(title, options);
+		}
+	}
+
+	window.Notification = __ParentNotification;
+
+	await whenDomReady('#overlay', el => !el || (el.style && el.style.display === 'none'));
+
+	Promise.all([whenDomReady('#volume'), whenDomReady('#volumeRange')])
+		.then(([muteButtonEl, volumeRangeEl]) => {
+			muteButtonEl.addEventListener('click', e => {
+				if (e.__generated) {
+					return;
+				}
+				onVolumeChange(volumeRangeEl);
 			});
-
-			whenDomReady('#mainFooter > div.media-info-wrap > div.other-controls > div > i.like.control.fa.fa-heart').then(el => {
-				onElementAttributeChange(el, 'class', onFavoriteChange);
-				onFavoriteChange(el);
+			volumeRangeEl.addEventListener('input', e => {
+				if (e.__generated) {
+					return;
+				}
+				onVolumeChange(volumeRangeEl);
 			});
+			onVolumeChange(volumeRangeEl);
+		});
 
-			whenDomReady('#progressPane > div > audio').then(el => {
-				['playing', 'pause', 'seeked'].forEach(k => {
-					el.addEventListener(k, () => {
-						onAudioTimeUpdate(el);
-					});
-				});
+	whenDomReady('#playerControls > span.control').then(el => {
+		onElementAttributeChange(el, 'class', onPlayingChange);
+		onPlayingChange(el);
+	});
+
+	whenDomReady('#mainFooter > div.media-info-wrap > div.other-controls > div > span.repeat.control').then(el => {
+		onElementAttributeChange(el, 'class', onPlayModeChange);
+		onPlayModeChange(el);
+	});
+
+	whenDomReady('#mainFooter > div.media-info-wrap > div.other-controls > div > i.like.control.fa.fa-heart').then(el => {
+		onElementAttributeChange(el, 'class', onFavoriteChange);
+		onFavoriteChange(el);
+	});
+
+	whenDomReady('#progressPane > div > audio').then(el => {
+		['playing', 'pause', 'seeked'].forEach(k => {
+			el.addEventListener(k, () => {
 				onAudioTimeUpdate(el);
 			});
-
-			whenDomReady('#mainFooter > div.media-info-wrap > div.middle-pane > span').then(el => {
-				onElementAttributeChange(el, 'style', () => {
-					onBackgroundImageUpdate(el);
-				});
-				onBackgroundImageUpdate(el);
-			});
-
-			const textStateSelectors = {
-				title: '#progressPane > h3',
-				artist: '#progressPane > p > a.artist',
-				album: '#progressPane > p > a.album'
-			};
-
-			Object.keys(textStateSelectors).forEach(k => {
-				whenDomReady(textStateSelectors[k]).then(el => {
-					const observer = new MutationObserver(() => {
-						const newState = {};
-						newState[k] = el.textContent;
-						updateState(newState);
-					});
-					observer.observe(el, {
-						characterData: true,
-						subtree: true
-					});
-				});
-			});
-
-			require('./actions.js').ready();
 		});
+		onAudioTimeUpdate(el);
+	});
+
+	whenDomReady('#mainFooter > div.media-info-wrap > div.middle-pane > span').then(el => {
+		onElementAttributeChange(el, 'style', () => {
+			onBackgroundImageUpdate(el);
+		});
+		onBackgroundImageUpdate(el);
+	});
+
+	const textStateSelectors = {
+		title: '#progressPane > h3',
+		artist: '#progressPane > p > a.artist',
+		album: '#progressPane > p > a.album'
+	};
+
+	Object.keys(textStateSelectors).forEach(k => {
+		whenDomReady(textStateSelectors[k]).then(el => {
+			const observer = new MutationObserver(() => {
+				const newState = {};
+				newState[k] = el.textContent;
+				updateState(newState);
+			});
+			observer.observe(el, {
+				characterData: true,
+				subtree: true
+			});
+		});
+	});
+
+	require('./actions.js').ready();
 }
 
 module.exports = {init};

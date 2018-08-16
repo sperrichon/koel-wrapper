@@ -1,14 +1,5 @@
 const logger = require('electron-timber');
 
-class __ParentNotification extends window.Notification {
-	constructor(title, options) {
-		options = Object.assign({silent: true}, options || {});
-		super(title, options);
-	}
-}
-
-window.Notification = __ParentNotification;
-
 function injectCSS(css) {
 	if (!document.head) {
 		setTimeout(() => injectCSS(css), 200);
