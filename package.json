@@ -2,19 +2,38 @@
   "name": "koel-wrapper",
   "productName": "Koel",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.2.0-1",
   "description": "An Electron wrapper for Koel",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "rebuild": "electron-rebuild",
-    "pack": "build --dir",
-    "dist": "build"
+    "install-app-deps": "npm run build -- install-app-deps",
+    "postinstall": "npm run install-app-deps",
+    "pack": "npm run build -- --dir",
+    "build": "cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true build",
+    "build:all": "npm run build -- -lmw",
+    "build:linux": "npm run build -- -l",
+    "build:win": "npm run build -- -w",
+    "build:mac": "npm run build -- -m",
+    "lint": "xo",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "xo": {
+    "esnext": true,
+    "env": [
+      "node",
+      "browser"
+    ]
   },
   "build": {
     "appId": "com.koel.wrapper",
     "asar": true,
     "compression": "maximum",
+    "artifactName": "${name}_${version}-${os}-${arch}.${ext}",
+    "files": [
+      "build/icon.*",
+      "src/**/*"
+    ],
     "win": {
       "target": [
         {
@@ -37,7 +56,7 @@
       "category": "public.app-category.music",
       "target": [
         {
-          "target": "zip",
+          "target": "dmg",
           "arch": [
             "x64"
           ]
@@ -51,8 +70,7 @@
           "target": "AppImage",
           "arch": [
             "ia32",
-            "x64",
-            "armv7l"
+            "x64"
           ]
         },
         {
@@ -64,6 +82,13 @@
           ]
         }
       ]
+    },
+    "dmg": {
+      "icon": "build/package.icns"
+    },
+    "nsis": {
+      "installerIcon": "build/package.ico",
+      "uninstallerIcon": "build/package.ico"
     }
   },
   "keywords": [],
@@ -78,14 +103,21 @@
   },
   "license": "MIT",
   "dependencies": {
+    "debounce-promise": "^3.1.0",
+    "discord-rpc": "^3.0.0-beta.9",
+    "electron-context-menu": "^0.10.0",
     "electron-media-service": "^0.2.2",
-    "electron-prompt": "^0.2.0",
-    "electron-settings": "^3.0.14",
-    "electron-window-state": "^4.1.1"
+    "electron-prompt": "^1.1.0",
+    "electron-settings": "^3.2.0",
+    "electron-timber": "^0.5.1",
+    "electron-unhandled": "^1.1.0",
+    "electron-window-state": "^4.1.1",
+    "nan": "^2.10.0"
   },
   "devDependencies": {
-    "electron": "^1.6.8",
-    "electron-builder": "^17.1.1",
-    "electron-rebuild": "^1.5.11"
+    "cross-env": "^5.2.0",
+    "electron": "^3.0.0-beta.5",
+    "electron-builder": "^20.28.1",
+    "xo": "^0.22.0"
   }
 }

@@ -1,31 +1,58 @@
 const {shell, dialog} = require('electron');
 const pkg = require('../package.json');
 
-function menuTemplateFactory(actions) {
+function menuTemplateFactory(actions, initialValues) {
 	const aboutMenuItem = {
-		label: 'About '+pkg.productName,
+		label: 'About ' + pkg.productName,
 		click() {
 			dialog.showMessageBox({
-				title: 'About '+pkg.productName,
+				title: 'About ' + pkg.productName,
 				message: pkg.productName,
-				detail: 
-					pkg.description+
-					'\n\nv'+
-					pkg.version+
-					'\n\nCopyright © '+
-					new Date().getFullYear()+
-					' '+pkg.author.name
+				detail:
+					pkg.description +
+					'\n\nv' +
+					pkg.version +
+					'\n\nCopyright © ' +
+					new Date().getFullYear() +
+					' ' + pkg.author.name
 			});
 		}
 	};
 
 	const preferencesSubMenu = {
-		label: 'Preferences', 
+		label: 'Preferences',
 		submenu: [
 			{
-				label: 'Set Koel URL...', 
+				label: 'Set Koel URL...',
 				click() {
 					actions.openSetUrlDialog();
+				}
+			},
+			{
+				label: 'Discord Presence',
+				type: 'checkbox',
+				checked: initialValues.discordPresenceEnabled,
+				enabled: true,
+				click(item) {
+					actions.setDiscordPresenceEnabled(item.checked);
+				}
+			}
+		]
+	};
+
+	const clearSubMenu = {
+		label: 'Clear',
+		submenu: [
+			{
+				label: 'Clear cache',
+				click() {
+					actions.clearCache();
+				}
+			},
+			{
+				label: 'Clear storage data',
+				click() {
+					actions.clearStorageData();
 				}
 			}
 		]
@@ -34,13 +61,13 @@ function menuTemplateFactory(actions) {
 	const externalLinksMenuItems = [
 		{
 			label: 'Github Repo',
-			click () { 
+			click() {
 				shell.openExternal('https://github.com/sperrichon/koel-wrapper');
 			}
 		},
 		{
 			label: 'Koel Website',
-			click () { 
+			click() {
 				shell.openExternal('https://koel.phanan.net/');
 			}
 		}
@@ -83,6 +110,7 @@ function menuTemplateFactory(actions) {
 				aboutMenuItem,
 				{type: 'separator'},
 				preferencesSubMenu,
+				clearSubMenu,
 				{type: 'separator'},
 				{role: 'hide'},
 				{role: 'hideothers'},
@@ -94,7 +122,7 @@ function menuTemplateFactory(actions) {
 
 		template.push({
 			role: 'window',
-			submenu:  [
+			submenu: [
 				{role: 'minimize'},
 				{role: 'zoom'},
 				{type: 'separator'},
@@ -111,6 +139,7 @@ function menuTemplateFactory(actions) {
 			label: pkg.productName,
 			submenu: [
 				preferencesSubMenu,
+				clearSubMenu,
 				{type: 'separator'},
 				{role: 'quit'}
 			]
@@ -124,7 +153,7 @@ function menuTemplateFactory(actions) {
 			].concat(externalLinksMenuItems)
 		});
 	}
-	
+
 	return template;
 }
 
