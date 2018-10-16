@@ -62,7 +62,7 @@ function menuTemplateFactory(actions, initialValues) {
 		{
 			label: 'Github Repo',
 			click() {
-				shell.openExternal('https://github.com/sperrichon/koel-wrapper');
+				shell.openExternal('https://github.com/p-sam/koel-wrapper');
 			}
 		},
 		{

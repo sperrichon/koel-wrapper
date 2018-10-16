@@ -8,7 +8,7 @@ function loggingRegister() {
 		windowManager.on(event, () => logger.log('[window]', event));
 	});
 
-	discordPresenceService.on('error', err => logger.error('[discord]', 'error', err));
+	discordPresenceService.on('error', error => logger.error('[discord]', 'error', error));
 	discordPresenceService.on('ready', () => logger.log('[discord]', 'ready'));
 	discordPresenceService.on('toggle', enabled => logger.log('[discord]', 'toggle', enabled ? 'enabled' : 'disabled'));
 	discordPresenceService.on('activity', data => logger.log('[discord]', 'activity', data));

@@ -10,8 +10,8 @@ class KoelSafeIPCTransport extends IPCTransport {
 	async connect(opts) {
 		try {
 			await super.connect(opts);
-		} catch (err) {
-			this.onClose(err);
+		} catch (error) {
+			this.onClose(error);
 		}
 	}
 }
@@ -36,10 +36,10 @@ class DiscordRichPresence extends EventEmitter {
 				transport: '_koelSafeIPC' // Using our patched ipc transport
 			});
 
-			const rejectW = e => {
-				this.emit('error', e);
+			const rejectW = error => {
+				this.emit('error', error);
 				this.destroy();
-				reject(e);
+				reject(error);
 			};
 
 			client.on('error', rejectW);

@@ -67,11 +67,11 @@ function openSetUrlDialog() {
 				settings.set('url', r);
 				navigate();
 			}
-		}).catch(err => {
+		}).catch(error => {
 			windowManager.messageBox({
 				type: 'error',
 				title: promptTitle,
-				message: err.message
+				message: error.message
 			});
 		});
 }

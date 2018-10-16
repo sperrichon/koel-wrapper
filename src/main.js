@@ -9,7 +9,7 @@ unhandled({
 logger.log('starting');
 try {
 	require('./app.js'); // eslint-disable-line import/no-unassigned-import
-} catch (err) {
-	logger.error(err);
+} catch (error) {
+	logger.error(error);
 	process.exit(1); // eslint-disable-line unicorn/no-process-exit
 }

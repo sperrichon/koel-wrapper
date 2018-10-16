@@ -23,9 +23,9 @@ function injectCSS(css) {
 
 require('fs').readFile(
 	require('path').resolve(__dirname, './style.css'),
-	(err, css) => {
-		if (err) {
-			logger.error('css inject', err);
+	(error, css) => {
+		if (error) {
+			logger.error('css inject', error);
 		} else {
 			injectCSS(css);
 		}
