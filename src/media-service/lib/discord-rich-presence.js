@@ -51,7 +51,7 @@ class DiscordRichPresence extends EventEmitter {
 				resolve(client);
 			});
 
-			client.login(this._clientId).catch(rejectW);
+			client.login({clientId: this._clientId}).catch(rejectW);
 		});
 
 		return this._client;
