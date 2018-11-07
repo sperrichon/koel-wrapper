@@ -12,10 +12,20 @@ function init() {
 	window.Notification = __ParentNotification;
 
 	const __setTimeout = window.setTimeout;
-	window.setTimeout = (func, time) => __setTimeout(func, Math.min(time, MIN_INTERVAL_TIME));
+	window.setTimeout = (func, time) => {
+		if(time < MIN_INTERVAL_TIME) {
+			time = MIN_INTERVAL_TIME;
+		}
+		return __setTimeout(func, time);
+	};
 
 	const __setInterval = window.setInterval;
-	window.setInterval = (func, time) => __setInterval(func, Math.min(time, MIN_INTERVAL_TIME));
+	window.setInterval = (func, time) => {
+		if(time < MIN_INTERVAL_TIME) {
+			time = MIN_INTERVAL_TIME;
+		}
+		return __setInterval(func, time);
+	};
 }
 
 module.exports = {init};
