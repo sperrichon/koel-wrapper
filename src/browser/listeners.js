@@ -88,15 +88,6 @@ function onBackgroundImageUpdate(el) {
 async function init() {
 	await whenDomReady('#mainWrapper');
 
-	class __ParentNotification extends window.Notification {
-		constructor(title, options) {
-			options = Object.assign({silent: true}, options || {});
-			super(title, options);
-		}
-	}
-
-	window.Notification = __ParentNotification;
-
 	await whenDomReady('#overlay', el => !el || (el.style && el.style.display === 'none'));
 
 	Promise.all([whenDomReady('#volume'), whenDomReady('#volumeRange')])

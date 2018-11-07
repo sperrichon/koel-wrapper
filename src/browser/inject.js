@@ -32,4 +32,5 @@ require('fs').readFile(
 	}
 );
 
+require('./hooks.js').init();
 require('./listeners.js').init();
