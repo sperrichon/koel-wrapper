@@ -28,6 +28,16 @@ function menuTemplateFactory(actions, initialValues) {
 					actions.openSetUrlDialog();
 				}
 			},
+			{type: 'separator'},
+			{
+				label: 'Notifications',
+				type: 'checkbox',
+				checked: initialValues.notificationsEnabled,
+				enabled: true,
+				click(item) {
+					actions.setNotificationsEnabled(item.checked);
+				}
+			},
 			{
 				label: 'Discord Presence',
 				type: 'checkbox',

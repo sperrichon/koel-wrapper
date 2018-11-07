@@ -83,9 +83,14 @@ function applyDiscordPresenceStatus(enabled) {
 		mediaService.discordPresence.disable();
 	}
 }
+
 function setDiscordPresenceEnabled(enabled) {
 	settings.set('discordPresenceEnabled', enabled);
 	applyDiscordPresenceStatus(enabled);
+}
+
+function setNotificationsEnabled(enabled) {
+	settings.set('notificationsEnabled', enabled);
 }
 
 settings.watch('url', () => {
@@ -119,12 +124,13 @@ windowManager.on('leave-full-screen', mainWindow => {
 logging.register();
 
 const initialValues = {
-	discordPresenceEnabled: settings.get('discordPresenceEnabled', false)
+	discordPresenceEnabled: settings.get('discordPresenceEnabled', false),
+	notificationsEnabled: settings.get('notificationsEnabled', true)
 };
 applyDiscordPresenceStatus(initialValues.discordPresenceEnabled);
 
 windowManager.setMenuTemplate(require('./menu.js')({
-	openSetUrlDialog, setDiscordPresenceEnabled, clearStorageData, clearCache
+	openSetUrlDialog, setDiscordPresenceEnabled, clearStorageData, clearCache, setNotificationsEnabled
 }, initialValues));
 
 windowManager.setTouchBar(mediaService.electronTouchBar);
