@@ -1,11 +1,14 @@
+const fs = require('fs');
+const path = require('path');
 const logger = require('electron-timber');
 
 function injectCSS(css) {
-	if (!document.head) {
-		setTimeout(() => injectCSS(css), 200);
+	if (!document.head || !window.BASE_URL) {
+		requestAnimationFrame(() => injectCSS(css));
 		return;
 	}
 
+	css = String(css).replace(/__BASE_URL__/g, window.BASE_URL);
 	const style = document.createElement('style');
 
 	style.type = 'text/css';
@@ -21,16 +24,21 @@ function injectCSS(css) {
 	document.documentElement.classList.add('injected');
 }
 
-require('fs').readFile(
-	require('path').resolve(__dirname, './style.css'),
-	(error, css) => {
-		if (error) {
-			logger.error('css inject', error);
-		} else {
-			injectCSS(css);
+function injectCSSFile(cssPath) {
+	fs.readFile(
+		path.resolve(__dirname, cssPath),
+		(error, css) => {
+			if (error) {
+				logger.error('css inject', error);
+			} else {
+				injectCSS(css);
+			}
 		}
-	}
-);
+	);
+}
+
+injectCSSFile('./style.css');
+injectCSSFile('./style.theme.css');
 
 require('./hooks.js').init();
 require('./listeners.js').init();

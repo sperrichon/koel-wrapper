@@ -105,9 +105,11 @@ app.on('window-all-closed', () => {
 	}
 });
 
-app.on('will-quit', () => {
+/*
+App.on('will-quit', () => {
 	mediaService.shortcuts.unregister();
 });
+*/
 
 app.on('activate', () => {
 	windowManager.create(win => win.show());

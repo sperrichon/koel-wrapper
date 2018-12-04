@@ -50,11 +50,6 @@ html.mac #mainHeader #searchForm > input, html.mac #mainHeader a {
 	-webkit-app-region: no-drag;
 }
 
-html {
-	background: black;
-}
-
-
 html #nprogress .bar .peg {
 	display: none;
 }
