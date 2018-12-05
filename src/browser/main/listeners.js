@@ -1,5 +1,6 @@
 const {ipcRenderer} = require('electron');
 const logger = require('electron-timber');
+const actions = require('./actions');
 
 function updateState(state) {
 	logger.log('[listeners]', 'updateState', state);
@@ -158,7 +159,7 @@ async function init() {
 		});
 	});
 
-	require('./actions.js').ready();
+	actions.ready();
 }
 
 module.exports = {init};

@@ -93,6 +93,10 @@ function setNotificationsEnabled(enabled) {
 	settings.set('notificationsEnabled', enabled);
 }
 
+function openRemoteWindow(alwaysOnTop) {
+	windowManager.send('action', {type: 'openRemote', args: [alwaysOnTop]});
+}
+
 settings.watch('url', () => {
 	if (windowManager.isRunning()) {
 		navigate();
@@ -105,11 +109,9 @@ app.on('window-all-closed', () => {
 	}
 });
 
-/*
-App.on('will-quit', () => {
+app.on('will-quit', () => {
 	mediaService.shortcuts.unregister();
 });
-*/
 
 app.on('activate', () => {
 	windowManager.create(win => win.show());
@@ -132,7 +134,7 @@ const initialValues = {
 applyDiscordPresenceStatus(initialValues.discordPresenceEnabled);
 
 windowManager.setMenuTemplate(require('./menu.js')({
-	openSetUrlDialog, setDiscordPresenceEnabled, clearStorageData, clearCache, setNotificationsEnabled
+	openSetUrlDialog, setDiscordPresenceEnabled, clearStorageData, clearCache, setNotificationsEnabled, openRemoteWindow
 }, initialValues));
 
 windowManager.setTouchBar(mediaService.electronTouchBar);
@@ -152,7 +154,7 @@ windowManager.ready(() => {
 		mediaService.on(type, arg => windowManager.send('action', {type, args: [arg]}));
 	});
 
-	ipcMain.on('updateState', (event, newState) => mediaService.updateState(newState));
+	ipcMain.on('updateState', (_, newState) => mediaService.updateState(newState));
 });
 
 navigate();

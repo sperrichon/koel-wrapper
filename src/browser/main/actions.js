@@ -1,3 +1,5 @@
+const path = require('path');
+const {ipcRenderer, remote: {BrowserWindow}} = require('electron');
 const logger = require('electron-timber');
 
 function _withEl(selector, fn) {
@@ -69,8 +71,29 @@ function stop() {
 	seek(0);
 }
 
+function openRemote(alwaysOnTop) {
+	if (!window.BASE_URL) {
+		return;
+	}
+	const browserWindow = new BrowserWindow({
+		width: 300,
+		height: 450,
+		minWidth: 50,
+		minHeight: 50,
+		darkTheme: true,
+		backgroundColor: '#181818',
+		titleBarStyle: process.platform === 'darwin' ? 'hidden' : 'default',
+		webPreferences: {
+			nodeIntegration: false,
+			preload: path.join(__dirname, '../remote/preload.js')
+		},
+		alwaysOnTop: Boolean(alwaysOnTop)
+	});
+	browserWindow.loadURL(window.BASE_URL + 'remote');
+}
+
 const actions = {
-	next, prev, play, pause, playPause, playMode, seek, stop, volume, favorite
+	next, prev, play, pause, playPause, playMode, seek, stop, volume, favorite, openRemote
 };
 
 let isReady = false;
@@ -90,7 +113,7 @@ function handleAction(obj) {
 	}
 }
 
-require('electron').ipcRenderer.on('action', (event, obj) => {
+ipcRenderer.on('action', (event, obj) => {
 	logger.log('[actions]', 'from-main', obj, {isReady});
 
 	if (isReady) {

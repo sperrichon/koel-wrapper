@@ -36,7 +36,7 @@ function createWindow() {
 		titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
 		webPreferences: {
 			nodeIntegration: false,
-			preload: path.join(__dirname, './browser/inject.js')
+			preload: path.join(__dirname, './browser/main/preload.js')
 		}
 	});
 

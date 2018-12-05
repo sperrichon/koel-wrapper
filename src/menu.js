@@ -50,6 +50,24 @@ function menuTemplateFactory(actions, initialValues) {
 		]
 	};
 
+	const remoteWindowMenu = {
+		label: 'Remote Window',
+		submenu: [
+			{
+				label: 'Open',
+				click() {
+					actions.openRemoteWindow(false);
+				}
+			},
+			{
+				label: 'Open (always on top)',
+				click() {
+					actions.openRemoteWindow(true);
+				}
+			}
+		]
+	};
+
 	const clearSubMenu = {
 		label: 'Clear',
 		submenu: [
@@ -119,6 +137,7 @@ function menuTemplateFactory(actions, initialValues) {
 			submenu: [
 				aboutMenuItem,
 				{type: 'separator'},
+				remoteWindowMenu,
 				preferencesSubMenu,
 				clearSubMenu,
 				{type: 'separator'},
@@ -148,6 +167,7 @@ function menuTemplateFactory(actions, initialValues) {
 		template.unshift({
 			label: pkg.productName,
 			submenu: [
+				remoteWindowMenu,
 				preferencesSubMenu,
 				clearSubMenu,
 				{type: 'separator'},
