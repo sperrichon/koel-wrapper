@@ -22,6 +22,7 @@ function whenDomReady(selector, filter) {
 				resolve(el);
 			}
 		};
+
 		interval = setInterval(loop, 200);
 	});
 }
@@ -36,9 +37,11 @@ function onElementAttributeChange(el, attribute, fn) {
 				break;
 			}
 		}
+
 		if (!classMutated) {
 			return;
 		}
+
 		fn(el);
 	});
 	observer.observe(el, {attributes: true});
@@ -61,9 +64,11 @@ function onPlayModeChange(el) {
 	if (el.classList.contains('REPEAT_ALL')) {
 		playMode = 1;
 	}
+
 	if (el.classList.contains('REPEAT_ONE')) {
 		playMode = 2;
 	}
+
 	updateState({playMode});
 }
 
@@ -84,8 +89,10 @@ function onBackgroundImageUpdate(el) {
 			url = el.style.backgroundImage.substr(4, el.style.backgroundImage.length - 5).replace(/^["']/, '').replace(/["']$/, '');
 		}
 	}
+
 	updateState({albumArt: url});
 }
+
 async function init() {
 	await whenDomReady('#mainWrapper');
 
@@ -97,12 +104,14 @@ async function init() {
 				if (e.__generated) {
 					return;
 				}
+
 				onVolumeChange(volumeRangeEl);
 			});
 			volumeRangeEl.addEventListener('input', e => {
 				if (e.__generated) {
 					return;
 				}
+
 				onVolumeChange(volumeRangeEl);
 			});
 			onVolumeChange(volumeRangeEl);

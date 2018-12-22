@@ -31,6 +31,7 @@ async function updateActivity(state) {
 		ee.emit('activity', {activity, ok});
 	}
 }
+
 const flushActivityUpdate = debounce(() => updateActivity(lastState), 500);
 
 function enablePresence() {

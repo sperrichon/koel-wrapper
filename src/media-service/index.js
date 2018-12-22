@@ -23,12 +23,14 @@ function normalizeState(s) {
 			o.playMode = 0;
 		}
 	}
+
 	if (typeof (s.volume) !== 'undefined') {
 		o.volume = parseInt(s.volume, 10);
 		if (isNaN(o.volume) || o.volume > 100 || o.playMode < 0) {
 			o.volume = 0;
 		}
 	}
+
 	if (typeof (s.duration) !== 'undefined') {
 		o.duration = parseInt(s.duration, 10);
 		if (isNaN(o.duration) || o.duration < 0) {
@@ -81,6 +83,7 @@ function updateState(newState) {
 	if (typeof (newState) !== 'object') {
 		throw new TypeError('newState is not a valid object');
 	}
+
 	newState = normalizeState(newState);
 
 	const mutations = new Set();
@@ -90,6 +93,7 @@ function updateState(newState) {
 			mutators[i].forEach(mutation => mutations.add(mutation));
 		}
 	}
+
 	mutations.forEach(mutation => mutation(state));
 }
 

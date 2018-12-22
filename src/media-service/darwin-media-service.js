@@ -23,12 +23,14 @@ function updateMetaData(state) {
 		if (updateNeeded) {
 			lastID++;
 		}
+
 		newObject.id = lastID;
 
 		let metaDataPlaying = MediaService.STATES.STOPPED;
 		if (state.duration && state.title) {
 			metaDataPlaying = state.playing ? MediaService.STATES.PLAYING : MediaService.STATES.PAUSED;
 		}
+
 		if (lastMetaDataObject.state !== metaDataPlaying) {
 			newObject.state = metaDataPlaying;
 			updateNeeded = true;

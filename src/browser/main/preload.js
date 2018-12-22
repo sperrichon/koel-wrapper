@@ -15,10 +15,10 @@ function injectCSS(css) {
 	if (style.styleSheet) {
 		style.styleSheet.cssText = css;
 	} else {
-		style.appendChild(document.createTextNode(css));
+		style.append(document.createTextNode(css));
 	}
 
-	document.head.appendChild(style);
+	document.head.append(style);
 
 	logger.log('css injected');
 	document.documentElement.classList.add('injected');

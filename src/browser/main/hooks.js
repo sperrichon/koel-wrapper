@@ -13,6 +13,7 @@ function init() {
 			if (settings.get('notificationsEnabled', true)) {
 				return Notification;
 			}
+
 			return undefined;
 		}
 	});

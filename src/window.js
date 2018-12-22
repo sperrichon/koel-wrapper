@@ -52,6 +52,7 @@ function createWindow() {
 				return;
 			}
 		}
+
 		ee.emit('close', mainWindow);
 	});
 
@@ -59,6 +60,7 @@ function createWindow() {
 		if (process.platform === 'darwin') {
 			mainWindow.setClosable(false);
 		}
+
 		ee.emit('enter-full-screen', mainWindow);
 	});
 
@@ -66,6 +68,7 @@ function createWindow() {
 		if (process.platform === 'darwin') {
 			mainWindow.setClosable(true);
 		}
+
 		ee.emit('leave-full-screen', mainWindow);
 	});
 
@@ -112,10 +115,12 @@ function create(fn) {
 		if (!isRunning()) {
 			createWindow();
 		}
+
 		if (typeof (fn) === 'function') {
 			setImmediate(fn, mainWindow);
 		}
 	};
+
 	if (appReady) {
 		setImmediate(lfn);
 	} else {
@@ -169,6 +174,7 @@ function show() {
 		if (mainWindow.isMinimized()) {
 			mainWindow.restore();
 		}
+
 		mainWindow.focus();
 		mainWindow.show();
 		mainWindow.setSkipTaskbar(false);

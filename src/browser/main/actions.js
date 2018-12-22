@@ -8,6 +8,7 @@ function _withEl(selector, fn) {
 		fn(el);
 		return true;
 	}
+
 	return false;
 }
 
@@ -75,6 +76,7 @@ function openRemote(alwaysOnTop) {
 	if (!window.BASE_URL) {
 		return;
 	}
+
 	const browserWindow = new BrowserWindow({
 		width: 300,
 		height: 450,
