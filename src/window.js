@@ -94,7 +94,7 @@ function createWindow() {
 		ee.emit('dom-ready', mainWindow.webContents);
 
 		for (let i = 0; i < fns.length; i++) {
-			setImmediate(fns[i], mainWindow.webContents);
+			setTimeout(() => fns[i](mainWindow.webContents), 1);
 		}
 	});
 
@@ -117,12 +117,12 @@ function create(fn) {
 		}
 
 		if (typeof (fn) === 'function') {
-			setImmediate(fn, mainWindow);
+			setTimeout(() => fn(mainWindow), 1);
 		}
 	};
 
 	if (appReady) {
-		setImmediate(lfn);
+		setTimeout(lfn, 1);
 	} else {
 		onAppReady.push(lfn);
 	}
@@ -131,7 +131,7 @@ function create(fn) {
 function ready(fn) {
 	create(() => {
 		if (windowDomReady) {
-			setImmediate(fn, mainWindow.webContents);
+			setTimeout(() => fn(mainWindow.webContents), 1);
 		} else {
 			onWindowDomReady.push(fn);
 		}
@@ -151,7 +151,7 @@ app.on('ready', () => {
 	const fns = onAppReady;
 	onAppReady = [];
 	for (let i = 0; i < fns.length; i++) {
-		setImmediate(fns[i]);
+		setTimeout(fns[i], 1);
 	}
 });
 
