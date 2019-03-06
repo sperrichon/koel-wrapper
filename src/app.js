@@ -67,11 +67,11 @@ function openSetUrlDialog() {
 				settings.set('url', r);
 				navigate();
 			}
-		}).catch(err => {
+		}).catch(error => {
 			windowManager.messageBox({
 				type: 'error',
 				title: promptTitle,
-				message: err.message
+				message: error.message
 			});
 		});
 }
@@ -83,9 +83,18 @@ function applyDiscordPresenceStatus(enabled) {
 		mediaService.discordPresence.disable();
 	}
 }
+
 function setDiscordPresenceEnabled(enabled) {
 	settings.set('discordPresenceEnabled', enabled);
 	applyDiscordPresenceStatus(enabled);
+}
+
+function setNotificationsEnabled(enabled) {
+	settings.set('notificationsEnabled', enabled);
+}
+
+function openRemoteWindow(alwaysOnTop) {
+	windowManager.send('action', {type: 'openRemote', args: [alwaysOnTop]});
 }
 
 settings.watch('url', () => {
@@ -119,12 +128,13 @@ windowManager.on('leave-full-screen', mainWindow => {
 logging.register();
 
 const initialValues = {
-	discordPresenceEnabled: settings.get('discordPresenceEnabled', false)
+	discordPresenceEnabled: settings.get('discordPresenceEnabled', false),
+	notificationsEnabled: settings.get('notificationsEnabled', true)
 };
 applyDiscordPresenceStatus(initialValues.discordPresenceEnabled);
 
 windowManager.setMenuTemplate(require('./menu.js')({
-	openSetUrlDialog, setDiscordPresenceEnabled, clearStorageData, clearCache
+	openSetUrlDialog, setDiscordPresenceEnabled, clearStorageData, clearCache, setNotificationsEnabled, openRemoteWindow
 }, initialValues));
 
 windowManager.setTouchBar(mediaService.electronTouchBar);
@@ -144,7 +154,7 @@ windowManager.ready(() => {
 		mediaService.on(type, arg => windowManager.send('action', {type, args: [arg]}));
 	});
 
-	ipcMain.on('updateState', (event, newState) => mediaService.updateState(newState));
+	ipcMain.on('updateState', (_, newState) => mediaService.updateState(newState));
 });
 
 navigate();

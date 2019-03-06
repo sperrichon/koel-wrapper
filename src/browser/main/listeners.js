@@ -1,5 +1,6 @@
 const {ipcRenderer} = require('electron');
 const logger = require('electron-timber');
+const actions = require('./actions');
 
 function updateState(state) {
 	logger.log('[listeners]', 'updateState', state);
@@ -21,6 +22,7 @@ function whenDomReady(selector, filter) {
 				resolve(el);
 			}
 		};
+
 		interval = setInterval(loop, 200);
 	});
 }
@@ -35,9 +37,11 @@ function onElementAttributeChange(el, attribute, fn) {
 				break;
 			}
 		}
+
 		if (!classMutated) {
 			return;
 		}
+
 		fn(el);
 	});
 	observer.observe(el, {attributes: true});
@@ -60,9 +64,11 @@ function onPlayModeChange(el) {
 	if (el.classList.contains('REPEAT_ALL')) {
 		playMode = 1;
 	}
+
 	if (el.classList.contains('REPEAT_ONE')) {
 		playMode = 2;
 	}
+
 	updateState({playMode});
 }
 
@@ -83,19 +89,12 @@ function onBackgroundImageUpdate(el) {
 			url = el.style.backgroundImage.substr(4, el.style.backgroundImage.length - 5).replace(/^["']/, '').replace(/["']$/, '');
 		}
 	}
+
 	updateState({albumArt: url});
 }
+
 async function init() {
 	await whenDomReady('#mainWrapper');
-
-	class __ParentNotification extends window.Notification {
-		constructor(title, options) {
-			options = Object.assign({silent: true}, options || {});
-			super(title, options);
-		}
-	}
-
-	window.Notification = __ParentNotification;
 
 	await whenDomReady('#overlay', el => !el || (el.style && el.style.display === 'none'));
 
@@ -105,12 +104,14 @@ async function init() {
 				if (e.__generated) {
 					return;
 				}
+
 				onVolumeChange(volumeRangeEl);
 			});
 			volumeRangeEl.addEventListener('input', e => {
 				if (e.__generated) {
 					return;
 				}
+
 				onVolumeChange(volumeRangeEl);
 			});
 			onVolumeChange(volumeRangeEl);
@@ -167,7 +168,7 @@ async function init() {
 		});
 	});
 
-	require('./actions.js').ready();
+	actions.ready();
 }
 
 module.exports = {init};

@@ -11,19 +11,25 @@ const SHORTCUTS = {
 	MediaPlayPause: 'playPause'
 };
 
+const globalShortcutEnabled = process.platform !== 'darwin';
+
 module.exports = {
 	actions: {
 		register() {
-			Object.keys(SHORTCUTS).forEach(k => {
-				globalShortcut.register(k, () => {
-					ee.send('action', {type: SHORTCUTS[k]});
+			if (globalShortcutEnabled) {
+				Object.keys(SHORTCUTS).forEach(k => {
+					globalShortcut.register(k, () => {
+						ee.send('action', {type: SHORTCUTS[k]});
+					});
 				});
-			});
+			}
 		},
 		unregister() {
-			Object.keys(SHORTCUTS).forEach(k => {
-				globalShortcut.unregister(k);
-			});
+			if (globalShortcutEnabled) {
+				Object.keys(SHORTCUTS).forEach(k => {
+					globalShortcut.unregister(k);
+				});
+			}
 		}
 	}
 };

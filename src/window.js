@@ -32,11 +32,11 @@ function createWindow() {
 		minHeight: 200,
 		minWidth: 420,
 		darkTheme: true,
-		backgroundColor: '#000',
+		backgroundColor: '#181818',
 		titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
 		webPreferences: {
 			nodeIntegration: false,
-			preload: path.join(__dirname, './browser/inject.js')
+			preload: path.join(__dirname, './browser/main/preload.js')
 		}
 	});
 
@@ -52,6 +52,7 @@ function createWindow() {
 				return;
 			}
 		}
+
 		ee.emit('close', mainWindow);
 	});
 
@@ -59,6 +60,7 @@ function createWindow() {
 		if (process.platform === 'darwin') {
 			mainWindow.setClosable(false);
 		}
+
 		ee.emit('enter-full-screen', mainWindow);
 	});
 
@@ -66,6 +68,7 @@ function createWindow() {
 		if (process.platform === 'darwin') {
 			mainWindow.setClosable(true);
 		}
+
 		ee.emit('leave-full-screen', mainWindow);
 	});
 
@@ -91,7 +94,7 @@ function createWindow() {
 		ee.emit('dom-ready', mainWindow.webContents);
 
 		for (let i = 0; i < fns.length; i++) {
-			setImmediate(fns[i], mainWindow.webContents);
+			setTimeout(() => fns[i](mainWindow.webContents), 1);
 		}
 	});
 
@@ -112,12 +115,14 @@ function create(fn) {
 		if (!isRunning()) {
 			createWindow();
 		}
+
 		if (typeof (fn) === 'function') {
-			setImmediate(fn, mainWindow);
+			setTimeout(() => fn(mainWindow), 1);
 		}
 	};
+
 	if (appReady) {
-		setImmediate(lfn);
+		setTimeout(lfn, 1);
 	} else {
 		onAppReady.push(lfn);
 	}
@@ -126,7 +131,7 @@ function create(fn) {
 function ready(fn) {
 	create(() => {
 		if (windowDomReady) {
-			setImmediate(fn, mainWindow.webContents);
+			setTimeout(() => fn(mainWindow.webContents), 1);
 		} else {
 			onWindowDomReady.push(fn);
 		}
@@ -146,7 +151,7 @@ app.on('ready', () => {
 	const fns = onAppReady;
 	onAppReady = [];
 	for (let i = 0; i < fns.length; i++) {
-		setImmediate(fns[i]);
+		setTimeout(fns[i], 1);
 	}
 });
 
@@ -169,6 +174,7 @@ function show() {
 		if (mainWindow.isMinimized()) {
 			mainWindow.restore();
 		}
+
 		mainWindow.focus();
 		mainWindow.show();
 		mainWindow.setSkipTaskbar(false);

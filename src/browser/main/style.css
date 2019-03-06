@@ -23,12 +23,19 @@
 html.mac #mainHeader {
 	padding-left: 80px;
 	-webkit-app-region: drag;
-	height: 38px;
 }
 
 html.mac.fullscreen #mainHeader {
 	padding-left: 0;
-	height: 48px;
+}
+
+@media not screen and (max-width: 667px) {
+	html.mac #mainHeader {
+		height: 38px;
+	}
+	html.mac.fullscreen #mainHeader {
+		height: 48px;
+	}
 }
 
 html.mac #overlay, html.mac .login-wrapper {
@@ -43,6 +50,16 @@ html.mac #mainHeader #searchForm > input, html.mac #mainHeader a {
 	-webkit-app-region: no-drag;
 }
 
-html {
-	background: black;
+html #nprogress .bar .peg {
+	display: none;
+}
+
+html #nprogress .bar {
+	top: 45px;
+}
+
+@media not screen and (max-width: 667px) {
+	html.mac #nprogress .bar {
+		top: 35px;
+	}
 }

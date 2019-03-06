@@ -28,6 +28,16 @@ function menuTemplateFactory(actions, initialValues) {
 					actions.openSetUrlDialog();
 				}
 			},
+			{type: 'separator'},
+			{
+				label: 'Notifications',
+				type: 'checkbox',
+				checked: initialValues.notificationsEnabled,
+				enabled: true,
+				click(item) {
+					actions.setNotificationsEnabled(item.checked);
+				}
+			},
 			{
 				label: 'Discord Presence',
 				type: 'checkbox',
@@ -35,6 +45,24 @@ function menuTemplateFactory(actions, initialValues) {
 				enabled: true,
 				click(item) {
 					actions.setDiscordPresenceEnabled(item.checked);
+				}
+			}
+		]
+	};
+
+	const remoteWindowMenu = {
+		label: 'Remote Window',
+		submenu: [
+			{
+				label: 'Open',
+				click() {
+					actions.openRemoteWindow(false);
+				}
+			},
+			{
+				label: 'Open (always on top)',
+				click() {
+					actions.openRemoteWindow(true);
 				}
 			}
 		]
@@ -62,7 +90,7 @@ function menuTemplateFactory(actions, initialValues) {
 		{
 			label: 'Github Repo',
 			click() {
-				shell.openExternal('https://github.com/sperrichon/koel-wrapper');
+				shell.openExternal('https://github.com/p-sam/koel-wrapper');
 			}
 		},
 		{
@@ -109,6 +137,7 @@ function menuTemplateFactory(actions, initialValues) {
 			submenu: [
 				aboutMenuItem,
 				{type: 'separator'},
+				remoteWindowMenu,
 				preferencesSubMenu,
 				clearSubMenu,
 				{type: 'separator'},
@@ -138,6 +167,7 @@ function menuTemplateFactory(actions, initialValues) {
 		template.unshift({
 			label: pkg.productName,
 			submenu: [
+				remoteWindowMenu,
 				preferencesSubMenu,
 				clearSubMenu,
 				{type: 'separator'},

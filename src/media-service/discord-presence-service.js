@@ -24,20 +24,21 @@ async function updateActivity(state) {
 		let ok = true;
 		try {
 			await presenceClient.setActivity(activity);
-		} catch (err) {
+		} catch (error) {
 			ok = false;
 		}
 
 		ee.emit('activity', {activity, ok});
 	}
 }
+
 const flushActivityUpdate = debounce(() => updateActivity(lastState), 500);
 
 function enablePresence() {
 	if (!presenceClient) {
 		presenceClient = new DiscordRichPresence('411436834439299072');
 		presenceClient.on('ready', () => ee.emit('connected'));
-		presenceClient.on('error', err => ee.emit('error', err));
+		presenceClient.on('error', error => ee.emit('error', error));
 		flushActivityUpdate();
 		ee.emit('toggle', true);
 	}
