@@ -103,23 +103,23 @@
   },
   "license": "MIT",
   "dependencies": {
-    "debounce-promise": "^3.1.0",
+    "debounce-promise": "^3.1.2",
     "default-passive-events": "^1.0.10",
-    "discord-rpc": "^3.0.0-beta.9",
+    "discord-rpc": "^3.0.2",
     "doc-ready": "^1.0.4",
-    "electron-context-menu": "^0.11.0",
+    "electron-context-menu": "^0.12.1",
     "electron-media-service": "^0.2.2",
-    "electron-prompt": "^1.3.0",
+    "electron-prompt": "^1.3.1",
     "electron-settings": "^3.2.0",
     "electron-timber": "^0.5.1",
-    "electron-unhandled": "^2.1.0",
+    "electron-unhandled": "^2.2.0",
     "electron-window-state": "^5.0.3",
-    "nan": "^2.12.1"
+    "nan": "^2.14.0"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "electron": "^4.0.7",
-    "electron-builder": "^20.38.5",
+    "electron": "^5.0.5",
+    "electron-builder": "^20.44.4",
     "xo": "^0.24.0"
   }
 }

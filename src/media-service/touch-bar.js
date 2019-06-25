@@ -76,7 +76,7 @@ function updateVolumeSlider(state) {
 	volumeSlider.value = state.volume;
 }
 
-const electronTouchBar = new TouchBar([
+const electronTouchBar = new TouchBar({items: [
 	prevButton,
 	playPauseButton,
 	nextButton,
@@ -85,7 +85,7 @@ const electronTouchBar = new TouchBar([
 	playModeButton,
 	new TouchBarSpacer({size: 'large'}),
 	volumeSlider
-]);
+]});
 
 module.exports = Object.assign(ee, {
 	mutators: {updateAddToFavoritesButton, updatePlayModeButton, updatePlayPauseButton, updateVolumeSlider},
