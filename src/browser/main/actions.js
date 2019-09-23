@@ -19,19 +19,19 @@ function dispatchEvent(el, type) {
 }
 
 function next() {
-	_withEl('#playerControls > i.next.control', el => el.click());
+	_withEl('#mainFooter > div.player-controls > i.next.control', el => el.click());
 }
 
 function prev() {
-	_withEl('#playerControls > i.prev.control', el => el.click());
+	_withEl('#mainFooter > div.player-controls > i.prev.control', el => el.click());
 }
 
 function play() {
-	_withEl('#playerControls > span.play.control', el => el.click());
+	_withEl('#mainFooter > div.player-controls > span.play.control', el => el.click());
 }
 
 function pause() {
-	_withEl('#playerControls > span.pause.control', el => el.click());
+	_withEl('#mainFooter > div.player-controls > span.pause.control', el => el.click());
 }
 
 function playPause() {
@@ -44,7 +44,7 @@ function playMode() {
 }
 
 function favorite() {
-	_withEl('#mainFooter > div.media-info-wrap > div.other-controls > div > i.like.control.fa.fa-heart', el => el.click());
+	_withEl('#mainFooter > div.media-info-wrap > div.other-controls > div > i.like.control', el => el.click());
 }
 
 function seek(percent) {

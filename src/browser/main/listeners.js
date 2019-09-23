@@ -117,7 +117,7 @@ async function init() {
 			onVolumeChange(volumeRangeEl);
 		});
 
-	whenDomReady('#playerControls > span.control').then(el => {
+	whenDomReady('#mainFooter > div.player-controls > span.control').then(el => {
 		onElementAttributeChange(el, 'class', onPlayingChange);
 		onPlayingChange(el);
 	});
@@ -127,7 +127,7 @@ async function init() {
 		onPlayModeChange(el);
 	});
 
-	whenDomReady('#mainFooter > div.media-info-wrap > div.other-controls > div > i.like.control.fa.fa-heart').then(el => {
+	whenDomReady('#mainFooter > div.media-info-wrap > div.other-controls > div > i.like.control').then(el => {
 		onElementAttributeChange(el, 'class', onFavoriteChange);
 		onFavoriteChange(el);
 	});
