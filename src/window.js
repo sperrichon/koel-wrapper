@@ -93,8 +93,8 @@ function createWindow() {
 
 		ee.emit('dom-ready', mainWindow.webContents);
 
-		for (let i = 0; i < fns.length; i++) {
-			setTimeout(() => fns[i](mainWindow.webContents), 1);
+		for (const element of fns) {
+			setTimeout(() => element(mainWindow.webContents), 1);
 		}
 	});
 
@@ -150,8 +150,8 @@ app.on('ready', () => {
 	appReady = true;
 	const fns = onAppReady;
 	onAppReady = [];
-	for (let i = 0; i < fns.length; i++) {
-		setTimeout(fns[i], 1);
+	for (const element of fns) {
+		setTimeout(element, 1);
 	}
 });
 

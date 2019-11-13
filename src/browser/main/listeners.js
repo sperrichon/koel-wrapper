@@ -85,8 +85,8 @@ function onAudioTimeUpdate(el) {
 function onBackgroundImageUpdate(el) {
 	let url = '';
 	if (el.style && el.style.backgroundImage) {
-		if (el.style.backgroundImage.substr(0, 4) === 'url(' && el.style.backgroundImage.substr(-1) === ')') {
-			url = el.style.backgroundImage.substr(4, el.style.backgroundImage.length - 5).replace(/^["']/, '').replace(/["']$/, '');
+		if (el.style.backgroundImage.slice(0, 4) === 'url(' && el.style.backgroundImage.slice(-1) === ')') {
+			url = el.style.backgroundImage.slice(4, el.style.backgroundImage.length - 5).replace(/^["']/, '').replace(/["']$/, '');
 		}
 	}
 

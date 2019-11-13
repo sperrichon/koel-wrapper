@@ -24,7 +24,7 @@ async function updateActivity(state) {
 		let ok = true;
 		try {
 			await presenceClient.setActivity(activity);
-		} catch (error) {
+		} catch (_) {
 			ok = false;
 		}
 
