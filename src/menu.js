@@ -1,24 +1,7 @@
-const {shell, dialog} = require('electron');
+const {shell} = require('electron');
 const pkg = require('../package.json');
 
 function menuTemplateFactory(actions, initialValues) {
-	const aboutMenuItem = {
-		label: 'About ' + pkg.productName,
-		click() {
-			dialog.showMessageBox({
-				title: 'About ' + pkg.productName,
-				message: pkg.productName,
-				detail:
-					pkg.description +
-					'\n\nv' +
-					pkg.version +
-					'\n\nCopyright © ' +
-					new Date().getFullYear() +
-					' ' + pkg.author.name
-			});
-		}
-	};
-
 	const preferencesSubMenu = {
 		label: 'Preferences',
 		submenu: [
@@ -135,7 +118,7 @@ function menuTemplateFactory(actions, initialValues) {
 		template.unshift({
 			label: pkg.productName,
 			submenu: [
-				aboutMenuItem,
+				{role: 'about'},
 				{type: 'separator'},
 				remoteWindowMenu,
 				preferencesSubMenu,
@@ -178,7 +161,7 @@ function menuTemplateFactory(actions, initialValues) {
 		template.push({
 			label: 'About',
 			submenu: [
-				aboutMenuItem,
+				{role: 'about'},
 				{type: 'separator'}
 			].concat(externalLinksMenuItems)
 		});
