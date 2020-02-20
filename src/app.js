@@ -27,6 +27,8 @@ app.on('second-instance', (commandLine, workingDirectory) => {
 	processCommandLine(commandLine, workingDirectory);
 });
 
+app.allowRendererProcessReuse = true;
+
 function navigate() {
 	const defaultUrl = require('url').format({
 		protocol: 'file',
